@@ -2,6 +2,18 @@
 # Official image, pinned by version and digest. Bump both together and add a CHANGELOG.md entry.
 FROM ghcr.io/paymenter/paymenter:v1.5.9@sha256:27471e077f4413f5f7c4e63656a8e7894892fc8c6885e5481f91e420bd37b63b
 
+# Fixed settings for this template (a variable set on the service wins). They live here,
+# not in start.sh, so `railway ssh` / artisan commands see them too.
+ENV APP_ENV=production \
+    APP_DEBUG=false \
+    DB_CONNECTION=mariadb \
+    DB_PORT=3306 \
+    CACHE_STORE=redis \
+    QUEUE_CONNECTION=redis \
+    SESSION_DRIVER=redis \
+    REDIS_CLIENT=phpredis \
+    PAYMENTER_DATA_DIR=/data
+
 COPY railway/ /railway/
 # /healthz (Railway health check) is added to the image's nginx site.
 # The image runs Laravel's scheduler from cron, which starts jobs without the service's

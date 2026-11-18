@@ -8,15 +8,7 @@ set -eu
 PORT="${PORT:-80}"
 DATA="${PAYMENTER_DATA_DIR:-/data}"
 
-# Defaults (any variable set on the service wins).
-export APP_ENV="${APP_ENV:-production}"
-export APP_DEBUG="${APP_DEBUG:-false}"
-export DB_CONNECTION="${DB_CONNECTION:-mariadb}"
-export DB_PORT="${DB_PORT:-3306}"
-export CACHE_STORE="${CACHE_STORE:-redis}"
-export QUEUE_CONNECTION="${QUEUE_CONNECTION:-redis}"
-export SESSION_DRIVER="${SESSION_DRIVER:-redis}"
-export REDIS_CLIENT="${REDIS_CLIENT:-phpredis}"
+# Fixed defaults are ENV lines in the Dockerfile. APP_URL falls back to the Railway domain.
 if [ -z "${APP_URL:-}" ] && [ -n "${RAILWAY_PUBLIC_DOMAIN:-}" ]; then
   export APP_URL="https://${RAILWAY_PUBLIC_DOMAIN}"
 fi
